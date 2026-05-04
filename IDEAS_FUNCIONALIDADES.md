@@ -11,8 +11,8 @@ Esta hoja de ruta está enfocada exclusivamente en funcionalidades realistas par
 ### 1. **Módulo de Topografía Esencial** ✅ COMPLETO
 - [x] **Nivelación Simple**: Cálculo rápido de cotas con compensación básica
 - [x] **Nivelación Compuesta**: Libreta de campo simplificada con cálculos automáticos
-- [x] **Poligonal Rápida**: Cierre y compensación simplificada (método brújula) para levantamientos rápidos
-- [x] **Radiación Básica**: Registro de puntos desde estación total
+- [x] **Poligonal Rápida**: Cierre y compensación simplificada (método brújula) - UI implementada
+- [x] **Radiación Básica**: Registro de puntos desde estación total - UI implementada
 - [ ] **Perfil Longitudinal**: Visualización gráfica ligera del terreno y rasante (en progreso)
 - [ ] **Exportación CSV/PDF**: Compartir informes fácilmente por WhatsApp, Email (parcialmente implementado)
 
@@ -54,7 +54,8 @@ Esta hoja de ruta está enfocada exclusivamente en funcionalidades realistas par
 
 ### Fase 2 (Mediano Plazo - 2-3 meses) - EN PROGRESO
 - [ ] Nivelación compuesta completa
-- [x] Poligonal rápida con compensación (lógica implementada, falta UI)
+- [x] Poligonal rápida con compensación (UI y lógica implementadas)
+- [x] Radiación básica desde estación total (UI y lógica implementadas)
 - [ ] Gráfico interactivo de perfil (zoom, pan)
 - [ ] Plantillas de proyectos recurrentes
 
@@ -136,7 +137,7 @@ Para mantener la app ligera y útil en campo, se excluyen:
 
 ## 📦 Estado Actual del Proyecto
 
-### Archivos Implementados (35 archivos Kotlin)
+### Archivos Implementados (37 archivos Kotlin)
 
 #### Dominio (Lógica de Negocio)
 - `CalcularTopografia.kt` - Perfil longitudinal y nivelación
@@ -152,7 +153,9 @@ Para mantener la app ligera y útil en campo, se excluyen:
 
 #### UI (Jetpack Compose)
 - `TopNivScreen.kt` - Pantalla principal de nivelación
-- Componentes modulares: ErrorCard, ResultadosCard, MaterialesExpandableSection
+- `PoligonalScreen.kt` - Pantalla de poligonal rápida con método brújula
+- `RadiacionScreen.kt` - Pantalla de radiación desde estación total
+- Componentes modulares: ErrorCard, ResultadosCard, MaterialesExpandableSection, ResultadoPoligonalCard, ResultadoRadiacionCard
 - ViewModels con Hilt: TopNivViewModel, PoligonalViewModel, RadiacionViewModel
 
 #### Navegación

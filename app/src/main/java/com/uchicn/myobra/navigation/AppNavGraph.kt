@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.uchicn.myobra.ui.topniv.TopNivScreen
+import com.uchicn.myobra.ui.poligonal.PoligonalScreen
+import com.uchicn.myobra.ui.radiacion.RadiacionScreen
 
 @Composable
 fun AppNavGraph(
@@ -25,12 +27,14 @@ fun AppNavGraph(
             )
         }
         composable(Screen.Poligonal.route) {
-            // Placeholder para pantalla de poligonal
-            // Se implementará la UI completa más adelante
+            PoligonalScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         composable(Screen.Radiacion.route) {
-            // Placeholder para pantalla de radiación
-            // Se implementará la UI completa más adelante
+            RadiacionScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }
