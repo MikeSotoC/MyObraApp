@@ -13,13 +13,13 @@ Esta hoja de ruta está enfocada exclusivamente en funcionalidades realistas par
 - [x] **Nivelación Compuesta**: Libreta de campo simplificada con cálculos automáticos
 - [x] **Poligonal Rápida**: Cierre y compensación simplificada (método brújula) - UI implementada
 - [x] **Radiación Básica**: Registro de puntos desde estación total - UI implementada
-- [ ] **Perfil Longitudinal**: Visualización gráfica ligera del terreno y rasante (en progreso)
-- [ ] **Exportación CSV/PDF**: Compartir informes fácilmente por WhatsApp, Email (parcialmente implementado)
+- [x] **Perfil Longitudinal**: Visualización gráfica ligera del terreno y rasante
+- [x] **Exportación CSV/PDF**: Compartir informes fácilmente por WhatsApp, Email
 
 ### 2. **Módulo de Materiales (Zanjas)** ✅ COMPLETO
 - [x] **Cálculo de Corte/Relleno**: Estimación rápida para zanjas de tuberías
 - [x] **Materiales por Tramo**: Arena, concreto, ladrillo según tipo de zanja
-- [ ] **Resumen de Cantidades**: Totalización automática por proyecto
+- [x] **Resumen de Cantidades**: Totalización automática por proyecto
 
 ### 3. **Mejoras de UX/UI Móvil**
 - [ ] **Modo offline completo**: Sin dependencia de conexión a internet
@@ -48,12 +48,13 @@ Esta hoja de ruta está enfocada exclusivamente en funcionalidades realistas par
 
 ### Fase 1 (Corto Plazo - 2-4 semanas) ✅ COMPLETADO
 - [x] Mejorar gráfico de perfil longitudinal actual
-- [ ] Agregar exportación a PDF básico
+- [x] Agregar exportación a PDF básico
 - [ ] Historial de proyectos locales (Room Database simple)
 - [x] Optimizar inputs para teclado numérico
+- [x] Cálculo completo de materiales de zanja
 
 ### Fase 2 (Mediano Plazo - 2-3 meses) - EN PROGRESO
-- [ ] Nivelación compuesta completa
+- [x] Nivelación compuesta completa
 - [x] Poligonal rápida con compensación (UI y lógica implementadas)
 - [x] Radiación básica desde estación total (UI y lógica implementadas)
 - [ ] Gráfico interactivo de perfil (zoom, pan)

@@ -1,7 +1,9 @@
 package com.uchicn.myobra.ui.topniv
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -9,10 +11,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.uchicn.myobra.ui.theme.AccentOrange
 import com.uchicn.myobra.ui.theme.PrimaryBlue
+import com.uchicn.myobra.core.domain.model.topo.ResultadoMateriales
 import com.uchicn.myobra.ui.topniv.components.ErrorCard
 import com.uchicn.myobra.ui.topniv.components.MaterialesExpandableSection
 import com.uchicn.myobra.ui.topniv.components.NivelacionCard
@@ -177,7 +184,17 @@ fun TopNivScreen(
                 onConAsfaltoChange = { conAsfalto = it },
                 onEspesorAsfaltoChange = { espesorAsfalto = it },
                 onCalcularClick = {
-                    // TODO: Implementar cálculo de materiales
+                    viewModel.calcularMateriales(
+                        perfil = emptyList(), // Usa el perfil cacheado
+                        ancho = anchoZanja.toDoubleOrNull(),
+                        diametroMm = diametro.toDoubleOrNull(),
+                        camaCm = cama.toDoubleOrNull(),
+                        sobreCm = sobrecama.toDoubleOrNull(),
+                        rellPropioCm = rellenoPropio.toDoubleOrNull(),
+                        rellPrestCm = rellenoPrestamo.toDoubleOrNull(),
+                        desperdicioPct = desperdicio.toDoubleOrNull(),
+                        espAsfaltoCm = if (conAsfalto) espesorAsfalto.toDoubleOrNull() else null
+                    )
                 }
             )
             
@@ -188,6 +205,11 @@ fun TopNivScreen(
                         titulo = state.titulo,
                         resultados = state.resultados,
                         pendientePorcentaje = state.pendientePorcentaje
+                    )
+                }
+                is TopNivUiState.MostrarMateriales -> {
+                    MaterialesResultadoCard(
+                        materiales = state.materiales
                     )
                 }
                 is TopNivUiState.Error -> {
@@ -615,6 +637,124 @@ private fun ErrorCard(mensaje: String) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer
             )
+        }
+    }
+}
+
+@Composable
+fun MaterialesResultadoCard(
+    materiales: ResultadoMateriales,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(
+                            Brush.linearGradient(
+                                colors = listOf(AccentOrange, AccentOrange.copy(alpha = 0.7f))
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Build,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(26.dp)
+                    )
+                }
+                Column {
+                    Text(
+                        text = "Materiales Calculados",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Cantidad de materiales para zanja",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            
+            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+            
+            // Grid de resultados
+            val items = mutableListOf<Pair<String, String>>()
+            
+            items.add("Excavación" to "${String.format("%.2f", materiales.excavacion)} m³")
+            materiales.cama.takeIf { it > 0 }?.let { 
+                items.add("Cama de arena" to "${String.format("%.2f", it)} m³") 
+            }
+            materiales.sobrecama.takeIf { it > 0 }?.let { 
+                items.add("Sobrecama" to "${String.format("%.2f", it)} m³") 
+            }
+            materiales.rellenoPropio.takeIf { it > 0 }?.let { 
+                items.add("Relleno propio" to "${String.format("%.2f", it)} m³") 
+            }
+            materiales.rellenoPrestamo.takeIf { it > 0 }?.let { 
+                items.add("Relleno préstamo" to "${String.format("%.2f", it)} m³") 
+            }
+            materiales.asfalto.takeIf { it != null && it > 0 }?.let { 
+                items.add("Asfalto" to "${String.format("%.2f", it)} m³") 
+            }
+            
+            items.forEach { (titulo, valor) ->
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = titulo,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                            Text(
+                                text = valor,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        Icon(
+                            Icons.Default.Calculate,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }
