@@ -1,69 +1,15 @@
-```
-# Android/Kotlin specific ignores
-*.class
-*.dex
-*.aar
-*.apk
-*.so
-*.dylib
-*.dll
-
-# Build directories
-build/
-.gradle/
-*/build/
-*/.gradle/
-
-# Local configuration
-local.properties
-
-# IDE files
-.idea/
-*.iml
-*.iws
-.vscode/
-
-# Environment and temporary files
-.env
-.env.local
-*.tmp
-*.log
-
-# Python related (if any Python tools used in project)
-__pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-venv/
-.venv/
-.env
-.env.local
-
-# Compiled and binary files
+__pycache__/
 *.o
 *.obj
-*.a
-*.lib
-*.so
-*.dll
-*.exe
 *.out
-
-# Dependencies
-node_modules/
-target/
-.mypy_cache/
-.pytest_cache/
-coverage/
-htmlcov/
-.coverage
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Compressed files
+*.exe
+*.dll
+*.so
+*.a
+*.class
+*.jar
+*.war
 *.zip
 *.gz
 *.tar
@@ -86,4 +32,26 @@ Thumbs.db
 *.tar.bz2
 *.tar.xz
 *.tar.zst
-```
+node_modules/
+venv/
+.venv/
+.env
+.env.local
+.env.*
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+*.tmp
+dist/
+build/
+target/
+.gradle/
+.mypy_cache/
+.pytest_cache/
+coverage/
+htmlcov/
+.Coverage
+.DS_Store
+Thumbs.db
