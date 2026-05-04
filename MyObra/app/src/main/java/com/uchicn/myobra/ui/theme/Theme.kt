@@ -5,26 +5,52 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryBlueLight,
+    onPrimary = Color.Black,
+    secondary = SecondaryGrayLight,
+    tertiary = AccentOrangeLight,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    onSurface = Color.White,
+    surfaceVariant = Color(0xFF2D2D2D),
+    onSurfaceVariant = Color.White,
+    error = ErrorRed,
+    onError = Color.Black
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = PrimaryBlue,
+    onPrimary = TextOnPrimary,
+    primaryContainer = PrimaryBlueLight,
+    onPrimaryContainer = PrimaryBlueDark,
+    secondary = SecondaryGray,
+    onSecondary = TextOnPrimary,
+    secondaryContainer = SecondaryGrayLight,
+    onSecondaryContainer = SecondaryGrayDark,
+    tertiary = AccentOrange,
+    onTertiary = TextOnPrimary,
+    tertiaryContainer = AccentOrangeLight,
+    onTertiaryContainer = AccentOrangeDark,
+    background = BackgroundLight,
+    surface = SurfaceLight,
+    onSurface = TextPrimary,
+    surfaceVariant = Color(0xFFE8F0FE),
+    onSurfaceVariant = TextSecondary,
+    error = ErrorRed,
+    onError = Color.White,
+    outline = Color(0xFFBDBDBD)
 )
 
 @Composable
 fun MyObraTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Desactivado para usar colores personalizados
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
