@@ -24,12 +24,14 @@ import com.uchicn.myobra.ui.topniv.components.ErrorCard
 import com.uchicn.myobra.ui.topniv.components.MaterialesExpandableSection
 import com.uchicn.myobra.ui.topniv.components.NivelacionCard
 import com.uchicn.myobra.ui.topniv.components.ResultadosCard
+import com.uchicn.myobra.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNivScreen(
     viewModel: TopNivViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onNavigateToHistorial: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     
@@ -93,6 +95,16 @@ fun TopNivScreen(
                         Icon(
                             Icons.Default.ArrowBack,
                             contentDescription = "Volver"
+                        )
+                    }
+                },
+                actions = {
+                    // Botón para ir al Historial
+                    IconButton(onClick = onNavigateToHistorial) {
+                        Icon(
+                            Icons.Default.List,
+                            contentDescription = "Historial",
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 },
@@ -204,7 +216,17 @@ fun TopNivScreen(
                     ResultadosCard(
                         titulo = state.titulo,
                         resultados = state.resultados,
-                        pendientePorcentaje = state.pendientePorcentaje
+                        pendientePorcentaje = state.pendientePorcentaje,
+                        onGuardarProyecto = { nombre, notas ->
+                            viewModel.setNombreProyecto(nombre)
+                            viewModel.setNotasProyecto(notas)
+                            viewModel.guardarProyectoEnHistorial(
+                                cotaBm = cotaBm.toDoubleOrNull() ?: 0.0,
+                                lecturaBm = lecturaBm.toDoubleOrNull() ?: 0.0,
+                                intervalo = intervalo.toDoubleOrNull() ?: 1.0,
+                                distancia = distancia.toDoubleOrNull() ?: 10.0
+                            )
+                        }
                     )
                 }
                 is TopNivUiState.MostrarMateriales -> {
@@ -214,6 +236,31 @@ fun TopNivScreen(
                 }
                 is TopNivUiState.Error -> {
                     ErrorCard(mensaje = state.mensaje)
+                }
+                is TopNivUiState.Exito -> {
+                    // Mostrar mensaje de éxito
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF4CAF50).copy(alpha = 0.1f)),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CheckCircle,
+                                contentDescription = null,
+                                tint = Color(0xFF4CAF50)
+                            )
+                            Text(
+                                text = state.mensaje,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = Color(0xFF4CAF50)
+                            )
+                        }
+                    }
                 }
                 else -> {}
             }
@@ -492,8 +539,21 @@ private fun MaterialesExpandableSection(
 private fun ResultadosCard(
     titulo: String,
     resultados: List<String>,
-    pendientePorcentaje: Double
+    pendientePorcentaje: Double,
+    onGuardarProyecto: (String, String) -> Unit
 ) {
+    var mostrarDialogoGuardado by remember { mutableStateOf(false) }
+    
+    if (mostrarDialogoGuardado) {
+        DialogoGuardarProyecto(
+            onDismiss = { mostrarDialogoGuardado = false },
+            onGuardar = { nombre, notas ->
+                onGuardarProyecto(nombre, notas)
+                mostrarDialogoGuardado = false
+            }
+        )
+    }
+    
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -606,8 +666,87 @@ private fun ResultadosCard(
                     }
                 }
             }
+            
+            // Botón para guardar proyecto
+            Button(
+                onClick = { mostrarDialogoGuardado = true },
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PrimaryBlue
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Save,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Guardar en Historial")
+            }
         }
     }
+}
+
+@Composable
+private fun DialogoGuardarProyecto(
+    onDismiss: () -> Unit,
+    onGuardar: (String, String) -> Unit
+) {
+    var nombre by remember { mutableStateOf("") }
+    var notas by remember { mutableStateOf("") }
+    
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Guardar Proyecto") },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                OutlinedTextField(
+                    value = nombre,
+                    onValueChange = { nombre = it },
+                    label = { Text("Nombre del proyecto") },
+                    placeholder = { Text("Ej: Nivelación Calle Principal") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    leadingIcon = {
+                        Icon(Icons.Default.Folder, contentDescription = null)
+                    }
+                )
+                OutlinedTextField(
+                    value = notas,
+                    onValueChange = { notas = it },
+                    label = { Text("Notas (opcional)") },
+                    placeholder = { Text("Detalles adicionales...") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    minLines = 3,
+                    leadingIcon = {
+                        Icon(Icons.Default.Note, contentDescription = null)
+                    }
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onGuardar(nombre, notas) },
+                enabled = nombre.isNotBlank(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Guardar")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Cancelar")
+            }
+        },
+        shape = RoundedCornerShape(20.dp)
+    )
 }
 
 @Composable

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import com.uchicn.myobra.core.common.units.UnidadConverter
 import com.uchicn.myobra.core.domain.model.topo.PuntoPerfil
 import com.uchicn.myobra.core.domain.model.topo.PuntoRasante
@@ -12,13 +13,17 @@ import com.uchicn.myobra.core.domain.model.topo.ResultadoMateriales
 import com.uchicn.myobra.core.domain.topografia.TopNivUiState
 import com.uchicn.myobra.core.domain.topografia.CalcularTopografia
 import com.uchicn.myobra.core.domain.topografia.CalcularMaterialesZanja
+import com.uchicn.myobra.data.local.ProyectoNivelacionDao
+import com.uchicn.myobra.data.local.ProyectoNivelacionEntity
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class TopNivViewModel @Inject constructor(
     private val topografia: CalcularTopografia,
-    private val materialesZanja: CalcularMaterialesZanja
+    private val materialesZanja: CalcularMaterialesZanja,
+    private val nivelacionDao: ProyectoNivelacionDao
 ) : ViewModel() {
 
     // ================= ESTADO =================
@@ -28,6 +33,8 @@ class TopNivViewModel @Inject constructor(
     // ================= CACHE =================
     private var ultimoPerfil: List<PuntoPerfil>? = null
     private var ultimaRasante: List<PuntoRasante>? = null
+    private var nombreProyectoActual: String = ""
+    private var notasProyectoActual: String = ""
 
     // ================= PERFIL =================
     fun generarPerfil(
@@ -180,5 +187,51 @@ class TopNivViewModel @Inject constructor(
     
     fun clearError() {
         _uiState.value = TopNivUiState.Idle
+    }
+    
+    // ================= GUARDAR PROYECTO =================
+    fun setNombreProyecto(nombre: String) {
+        nombreProyectoActual = nombre
+    }
+    
+    fun setNotasProyecto(notas: String) {
+        notasProyectoActual = notas
+    }
+    
+    fun guardarProyectoEnHistorial(
+        cotaBm: Double,
+        lecturaBm: Double,
+        intervalo: Double,
+        distancia: Double
+    ) {
+        viewModelScope.launch {
+            try {
+                val perfil = ultimoPerfil ?: return@launch
+                
+                // Serializar puntos a JSON
+                val gson = Gson()
+                val puntosJson = gson.toJson(perfil)
+                
+                // Calcular error de cierre (simplificado)
+                val errorCierre = 0.0 // Se debería calcular con BM final si existe
+                
+                val proyecto = ProyectoNivelacionEntity(
+                    nombre = nombreProyectoActual.takeIf { it.isNotEmpty() } ?: "Proyecto ${System.currentTimeMillis()}",
+                    fechaCreacion = System.currentTimeMillis(),
+                    fechaModificacion = System.currentTimeMillis(),
+                    puntosJson = puntosJson,
+                    bmInicial = cotaBm,
+                    distanciaTotal = distancia,
+                    errorCierre = errorCierre,
+                   errorAceptable = true,
+                    notas = notasProyectoActual.takeIf { it.isNotEmpty() }
+                )
+                
+                nivelacionDao.insertProyecto(proyecto)
+                _uiState.value = TopNivUiState.Exito("Proyecto guardado en historial")
+            } catch (e: Exception) {
+                _uiState.value = TopNivUiState.Error("Error al guardar: ${e.message}")
+            }
+        }
     }
 }

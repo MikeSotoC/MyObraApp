@@ -5,4 +5,5 @@ sealed class Screen(val route: String) {
     object Nivelacion : Screen("nivelacion")
     object Poligonal : Screen("poligonal")
     object Radiacion : Screen("radiacion")
+    object Historial : Screen("historial")
 }

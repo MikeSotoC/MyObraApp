@@ -66,6 +66,14 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     
+    // Room Database - Historial Local
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    
+    // Gson - Serialización JSON para historial
+    implementation("com.google.code.gson:gson:2.10.1")
+    
     // Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     
