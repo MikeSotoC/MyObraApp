@@ -1,0 +1,101 @@
+```
+# Android build outputs
+*.apk
+*.aar
+*.so
+*.dex
+
+# Android build directories
+build/
+.gradle/
+captures/
+.externalNativeBuild/
+
+# Android Studio
+.idea/
+*.iml
+*.iws
+*.log
+
+# Gradle
+.gradle/
+gradle-app.setting
+node_modules/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Keystore
+*.keystore
+*.jks
+
+# Log Files
+*.log
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the ART (Android Runtime) - usually for debugging
+artifacts/
+profile/
+
+# Android coverage reports
+coverage/
+
+# Unit test reports
+test-results/
+*.xml
+
+# lint
+lint-results-*.xml
+
+# Proguard
+proguard/
+
+# Dex
+*.dex
+
+# APK Analyzer
+.analyzer/
+
+# Android cache
+.cache/
+
+# Generated files
+gen/
+
+# Android NDK
+obj/
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Arch-Components Room database schema
+schemas/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.hprof
+
+# Kotlin
+*.kotlin_metadata
+
+# Temporary folders
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+```
