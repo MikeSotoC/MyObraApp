@@ -10,14 +10,16 @@ import com.uchicn.myobra.core.domain.model.topo.PuntoPerfil
 import com.uchicn.myobra.core.domain.model.topo.PuntoRasante
 import com.uchicn.myobra.core.domain.model.topo.ResultadoMateriales
 import com.uchicn.myobra.core.domain.topografia.TopNivUiState
-import com.uchicn.myobra.domain.topografia.CalcularTopografia
-import com.uchicn.myobra.domain.topografia.CalcularMaterialesZanja
+import com.uchicn.myobra.core.domain.topografia.CalcularTopografia
+import com.uchicn.myobra.core.domain.topografia.CalcularMaterialesZanja
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TopNivViewModel : ViewModel() {
-
-    // ================= DOMINIO =================
-    private val topografia = CalcularTopografia()
-    private val materialesZanja = CalcularMaterialesZanja()
+@HiltViewModel
+class TopNivViewModel @Inject constructor(
+    private val topografia: CalcularTopografia,
+    private val materialesZanja: CalcularMaterialesZanja
+) : ViewModel() {
 
     // ================= ESTADO =================
     private val _uiState = MutableStateFlow<TopNivUiState>(TopNivUiState.Idle)

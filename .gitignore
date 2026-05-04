@@ -1,45 +1,89 @@
 ```
-# Android/Gradle
-*.apk
+# Android/Kotlin specific ignores
+*.class
+*.dex
 *.aar
-*.iml
-*.keystore
-local.properties
-gradle.properties
+*.apk
+*.so
+*.dylib
+*.dll
 
-# Gradle
-.gradle/
+# Build directories
 build/
-!gradle/wrapper/gradle-wrapper.properties
+.gradle/
+*/build/
+*/.gradle/
 
-# IDE
+# Local configuration
+local.properties
+
+# IDE files
 .idea/
-*.swp
-*.swo
-*.tmp
+*.iml
+*.iws
+.vscode/
 
-# Logs
-*.log
-
-# Environment
+# Environment and temporary files
 .env
 .env.local
-*.env.*
+*.tmp
+*.log
 
-# Coverage
+# Python related (if any Python tools used in project)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+.env
+.env.local
+
+# Compiled and binary files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+*.out
+
+# Dependencies
+node_modules/
+target/
+.mypy_cache/
+.pytest_cache/
 coverage/
 htmlcov/
 .coverage
 
-# Bytecode
-*.class
-*.dex
-
-# Debug symbols
-*.map
-*.pdb
-
-# OS generated files
+# System files
 .DS_Store
 Thumbs.db
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```

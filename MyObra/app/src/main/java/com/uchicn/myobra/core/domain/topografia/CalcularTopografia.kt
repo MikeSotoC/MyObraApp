@@ -1,4 +1,4 @@
-package com.uchicn.myobra.domain.topografia
+package com.uchicn.myobra.core.domain.topografia
 
 import com.uchicn.myobra.core.domain.model.topo.PuntoPerfil
 import com.uchicn.myobra.core.domain.model.topo.PuntoRasante
