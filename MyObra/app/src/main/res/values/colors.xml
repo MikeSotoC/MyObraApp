@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="perfil_terreno">#FF4CAF50</color>
-    <color name="perfil_rasante">#FFF44336</color>
-    <color name="perfil_grid">#FFBDBDBD</color>
-    <color name="perfil_texto">#FF212121</color>
-</resources>

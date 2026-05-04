@@ -1,31 +1,33 @@
 package com.uchicn.myobra.ui.topniv
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import com.uchicn.myobra.core.common.units.UnidadConverter
 import com.uchicn.myobra.core.domain.model.topo.PuntoPerfil
 import com.uchicn.myobra.core.domain.model.topo.PuntoRasante
 import com.uchicn.myobra.core.domain.model.topo.ResultadoMateriales
 import com.uchicn.myobra.core.domain.topografia.TopNivUiState
-import com.uchicn.myobra.domain.topografia.CalcularTopografia
-import com.uchicn.myobra.domain.topografia.CalcularMaterialesZanja
+import com.uchicn.myobra.core.domain.topografia.CalcularTopografia
+import com.uchicn.myobra.core.domain.topografia.CalcularMaterialesZanja
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TopNivViewModel : ViewModel() {
-
-    // ================= DOMINIO =================
-    private val topografia = CalcularTopografia()
-    private val materialesZanja = CalcularMaterialesZanja()
+@HiltViewModel
+class TopNivViewModel @Inject constructor(
+    private val topografia: CalcularTopografia,
+    private val materialesZanja: CalcularMaterialesZanja
+) : ViewModel() {
 
     // ================= ESTADO =================
-    private val _uiState = MutableLiveData<TopNivUiState>(TopNivUiState.Idle)
-    val uiState: LiveData<TopNivUiState> = _uiState
+    private val _uiState = MutableStateFlow<TopNivUiState>(TopNivUiState.Idle)
+    val uiState: StateFlow<TopNivUiState> = _uiState.asStateFlow()
 
     // ================= CACHE =================
     private var ultimoPerfil: List<PuntoPerfil>? = null
-
     private var ultimaRasante: List<PuntoRasante>? = null
-
 
     // ================= PERFIL =================
     fun generarPerfil(
@@ -53,6 +55,23 @@ class TopNivViewModel : ViewModel() {
         ultimoPerfil = perfil
 
         return perfil
+    }
+
+    fun generarPerfilYMostrarDialogo(
+        cotaBm: Double?,
+        lecturaBm: Double?,
+        intervalo: Double?,
+        distancia: Double?
+    ) {
+        if (cotaBm == null || lecturaBm == null || intervalo == null || distancia == null) {
+            _uiState.value = TopNivUiState.Error("Ingrese todos los datos de nivelación")
+            return
+        }
+        // Esta función prepara el estado para mostrar el diálogo de lecturas
+        // La lógica completa del diálogo debe implementarse en la UI Compose
+        _uiState.value = TopNivUiState.ListoParaIngresarLecturas(
+            cantidad = ((distancia / intervalo) + 1).toInt()
+        )
     }
 
     // ================= NIVELACIÓN =================
@@ -116,7 +135,9 @@ class TopNivViewModel : ViewModel() {
         )
 
     }
+    
     fun obtenerRasante(): List<PuntoRasante>? = ultimaRasante
+    
     // ================= MATERIALES =================
     fun calcularMateriales(
         perfil: List<PuntoPerfil>,
@@ -155,5 +176,9 @@ class TopNivViewModel : ViewModel() {
         )
 
         _uiState.value = TopNivUiState.MostrarMateriales(materiales)
+    }
+    
+    fun clearError() {
+        _uiState.value = TopNivUiState.Idle
     }
 }
