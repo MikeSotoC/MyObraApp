@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="16dp"
+        android:background="?attr/colorSurface">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!-- TÍTULO -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Muro de ladrillo"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="12dp"
+                android:textColor="?attr/colorOnSurface"/>
+
+        <!-- ÁREA -->
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAreaMuro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Área del muro (m²)"
+                    android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!-- LADRILLO -->
+        <TextView
+                android:text="Dimensiones del ladrillo (cm)"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnSurface"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLargoLad"
+                    android:hint="Largo (cm)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAnchoLad"
+                    android:hint="Ancho (cm)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAltoLad"
+                    android:hint="Alto (cm)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!-- JUNTAS -->
+        <TextView
+                android:text="Juntas (cm)"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etJuntaH"
+                    android:hint="Junta horizontal (cm)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etJuntaV"
+                    android:hint="Junta vertical (cm)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!-- ASENTADO -->
+        <TextView
+                android:text="Tipo de asentado"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spAsentado"
+                    android:hint="Seleccionar asentado"
+                    android:inputType="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!-- MORTERO -->
+        <TextView
+                android:text="Mortero"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spMortero"
+                    android:hint="Seleccionar mortero"
+                    android:inputType="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!-- DESPERDICIOS -->
+        <TextView
+                android:text="Desperdicios (%)"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDesperdicioLadrillo"
+                    android:hint="Ladrillo (%)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDesperdicioMortero"
+                    android:hint="Mortero (%)"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- BOTÓN -->
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalcularMuro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calcular muro"
+                android:layout_marginTop="24dp"
+                app:cornerRadius="14dp"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
